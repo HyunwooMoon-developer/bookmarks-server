@@ -3,6 +3,7 @@ const express = require('express');
 const { v4 : uuid} = require('uuid');
 const logger = require('../logger');
 const store = require('../store');
+const validUrl = require('valid-url');
 
 
 const bookMarkRouter = express.Router();
@@ -26,6 +27,10 @@ bookMarkRouter
     }
 
   //how to validate url
+  if(!validUrl.isUri(url)){
+    logger.error(`Invalid URI`)
+    return res.status(400).send(`Invalid URI`)
+  }
 
   const numericRating = parseInt(rating);
  
