@@ -10,7 +10,7 @@ const bookMarkRouter = express.Router();
 const bodyParser = express.json();
 
 bookMarkRouter
-.route('/bookmarks')
+.route('/')
 .get((req,res) => {
     res.json(store.bookmarks);
 })
@@ -55,7 +55,7 @@ bookMarkRouter
 })
 
 bookMarkRouter
-.route('/bookmarks/:id')
+.route('/:id')
 .get((req, res) => {
     const {id} = req.params;
   const bookmark = store.bookmarks.find(book => book.id == id);

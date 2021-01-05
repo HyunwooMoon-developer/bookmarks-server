@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 
 app.use(validateBearerToken);
 
-app.use(bookMarkRouter);
+app.use('/bookmark', bookMarkRouter);
 
 
 app.use(errorHandler);
