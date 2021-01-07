@@ -6,7 +6,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const {NODE_ENV} = require('./config');
-const bookMarkRouter = require('./bookMark/bookMarkRouter');
+const BookMarkRouter = require('./Bookmark/BookmarkRouter');
 const errorHandler = require('./errorHandler')
 const validateBearerToken = require('./validateBearerToken')
 
@@ -24,9 +24,9 @@ app.get('/', (req, res) => {
     res.send('type http://localhost:8000/bookmarks');
 })
 
-app.use(validateBearerToken);
+//app.use(validateBearerToken);
 
-app.use('/bookmark', bookMarkRouter);
+app.use('/bookmarks', BookMarkRouter);
 
 
 app.use(errorHandler);
