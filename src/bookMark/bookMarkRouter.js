@@ -151,6 +151,7 @@ BookmarkRouter
 
   const numberOfValues = Object.values(bookmarkToUpdate).filter(Boolean).length
     if(numberOfValues === 0){
+      logger.error(`must contain either 'title' 'url' 'description' or 'rating'`)
       return res.status(400).json({
         error: { message: `Request body must contain either 'title', 'url', 'description' or 'rating'`}
       })
@@ -162,6 +163,7 @@ BookmarkRouter
     bookmarkToUpdate
       )
       .then(numRowAffected => {
+        logger.info(`bookmark is patched`);
         res.status(204).end()
       })
       .catch(next)
