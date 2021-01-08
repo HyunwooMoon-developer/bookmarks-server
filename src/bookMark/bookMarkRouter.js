@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+const path = require('path');
 const express = require('express');
 //const { v4 : uuid} = require('uuid');
 const logger = require('../logger');
@@ -77,7 +78,7 @@ BookmarkRouter
     )
     .then(bookmark => {
       res.status(201)
-        .location(`/bookmarks/${bookmark.id}`)
+        .location(path.posix.join(req.originalUrl + `/${bookmark.id}`))
         .json(bookmark)
     })
     .catch(next)
@@ -143,6 +144,27 @@ BookmarkRouter
 
     logger.info(`Bookmark with id ${id} deleted`);
     res.status(204).end();*/
+})
+.patch(bodyParser, (req, res, next) => {
+  const {title, url, description, rating} = req.body;
+  const bookmarkToUpdate = {title, url, description, rating};
+
+  const numberOfValues = Object.values(bookmarkToUpdate).filter(Boolean).length
+    if(numberOfValues === 0){
+      return res.status(400).json({
+        error: { message: `Request body must contain either 'title', 'url', 'description' or 'rating'`}
+      })
+    } 
+
+  BookmarkService.updateBookmark(
+    req.app.get('db'),
+    req.params.bookmark_id,
+    bookmarkToUpdate
+      )
+      .then(numRowAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
 })
 
 module.exports = BookmarkRouter;
